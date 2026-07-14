@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visual Prompt Architecture Studio | RCDASIOV Framework</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233B82F6' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M9.813 15.904L9 21L14.907 18M18 10.5c0 3.25-3.5 5.5-3.5 5.5s-3.5-2.25-3.5-5.5a3.5 3.5 0 117 0z'/%3E%3C/svg%3E">
+</head>
+
+<body class="bg-cyber-bg text-cyber-text">
+  <!-- Glowing decorative backgrounds -->
+  <div
+    class="fixed top-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-500/10 rounded-full blur-[120px] pointer-events-none">
+  </div>
+  <div
+    class="fixed bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-purple-500/10 rounded-full blur-[120px] pointer-events-none">
+  </div>
+
+  <div class="min-h-screen flex flex-col">
+    <!-- Navbar -->
+    <header
+      class="glass-panel border-b border-cyber-border sticky top-0 z-40 px-6 py-4 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div
+          class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center shadow-lg shadow-blue-500/20">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+            </path>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-xl font-bold tracking-tight text-white font-outfit">Visual Prompt Architecture Studio</h1>
+          <p class="text-xs text-cyber-muted">Universal Prompt Architecture (UPA) • RCDASIOV Framework</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <!-- Load template shortcut -->
+        <span class="text-sm text-cyber-muted hidden sm:inline">โหลดแม่แบบด่วน:</span>
+        <select id="quick-template-select"
+          class="glass-input text-sm rounded-lg px-3 py-1.5 focus:ring-cyber-role font-medium max-w-xs cursor-pointer">
+          <option value="">-- เลือกเทมเพลตตัวอย่าง --</option>
+        </select>
+
+        <button id="btn-reset-app"
+          class="px-3 py-1.5 text-sm rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 font-semibold transition border border-red-500/20 hover:border-red-500/40"
+          title="ล้างข้อมูลใหม่ทั้งหมด">
+          ล้างข้อมูล
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow flex flex-col md:flex-row h-auto md:h-[calc(100vh-73px)] overflow-y-auto md:overflow-hidden">
+      <!-- Left Column: Architect Controls (Scrollable) -->
+      <section class="w-full md:w-3/5 flex flex-col border-b md:border-b-0 md:border-r border-cyber-border overflow-hidden">
+        <!-- Tab Bar -->
+        <div class="flex border-b border-cyber-border bg-gray-950/40 p-2 overflow-x-auto gap-1 w-full min-w-0">
+          <button id="tab-btn-wizard"
+            class="tab-btn active px-4 py-2 text-sm font-semibold rounded-lg text-white bg-blue-600/20 border border-blue-500/30 flex items-center gap-2 whitespace-nowrap transition">
+            <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+            Prompt Architect (Wizard)
+          </button>
+          <button id="tab-btn-blocks"
+            class="tab-btn px-4 py-2 text-sm font-semibold rounded-lg text-cyber-muted hover:text-white hover:bg-white/5 flex items-center gap-2 whitespace-nowrap transition">
+            <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+            Prompt Blocks (เรียงบล็อก)
+          </button>
+          <button id="tab-btn-optimizer"
+            class="tab-btn px-4 py-2 text-sm font-semibold rounded-lg text-cyber-muted hover:text-white hover:bg-white/5 flex items-center gap-2 whitespace-nowrap transition">
+            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+              stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z">
+              </path>
+            </svg>
+            Prompt Optimizer (ปรับแต่ง)
+          </button>
+          <button id="tab-btn-library"
+            class="tab-btn px-4 py-2 text-sm font-semibold rounded-lg text-cyber-muted hover:text-white hover:bg-white/5 flex items-center gap-2 whitespace-nowrap transition">
+            <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+              </path>
+            </svg>
+            Template Library (คลังแม่แบบ)
+          </button>
+          <button id="tab-btn-blueprint"
+            class="tab-btn px-4 py-2.5 text-sm font-semibold rounded-lg text-cyber-muted hover:text-white hover:bg-white/5 border border-transparent flex items-center gap-2 whitespace-nowrap transition">
+            <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7">
+              </path>
+            </svg>
+            Blueprint Mode (พิมพ์เขียวระบบ) 🗺️
+          </button>
+        </div>
+
+        <!-- Scrollable Tab Content Container -->
+        <div class="flex-grow overflow-y-auto p-6" id="left-pane-scroll">
+
+          <!-- TAB 1: WIZARD -->
+          <div id="tab-content-wizard" class="tab-content block">
+            <!-- Wizard Steps Progress Bar -->
+            <div class="mb-8 overflow-x-auto pb-2">
+              <div class="flex items-center justify-between min-w-[700px] px-2">
+                <div class="wizard-step flex flex-col items-center flex-1 cursor-pointer active" data-step="1">
+                  <div
+                    class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm bg-blue-600 text-white shadow-md shadow-blue-500/20 transition-all border border-blue-400">
+                    1</div>
+                  <span class="text-xs mt-2 font-semibold text-white">Project</span>
+                </div>
+                <div class="h-[2px] bg-gray-800 flex-1 mx-2" id="line-step-1"></div>
+                <div class="wizard-step flex flex-col items-center flex-1 cursor-pointer" data-step="2">
+                  <div
+                    class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm bg-gray-800 text-cyber-muted transition-all border border-transparent">
+                    2</div>
+                  <span class="text-xs mt-2 font-semibold text-cyber-muted">Role</span>
+                </div>
+                <div class="h-[2px] bg-gray-800 flex-1 mx-2" id="line-step-2"></div>
+                <div class="wizard-step flex flex-col items-center flex-1 cursor-pointer" data-step="3">
+                  <div
+                    class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm bg-gray-800 text-cyber-muted transition-all border border-transparent">
+                    3</div>
+                  <span class="text-xs mt-2 font-semibold text-cyber-muted">Context</span>
+                </div>
+                <div class="h-[2px] bg-gray-800 flex-1 mx-2" id="line-step-3"></div>
+                <div class="wizard-step flex flex-col items-center flex-1 cursor-pointer" data-step="4">
+                  <div
+                    class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm bg-gray-800 text-cyber-muted transition-all border border-transparent">
+                    4</div>
+                  <span class="text-xs mt-2 font-semibold text-cyber-muted">Data</span>
+                </div>
+                <div class="h-[2px] bg-gray-800 flex-1 mx-2" id="line-step-4"></div>
+                <div class="wizard-step flex flex-col items-center flex-1 cursor-pointer" data-step="5">
+                  <div
+                    class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm bg-gray-800 text-cyber-muted transition-all border border-transparent">
+                    5</div>
+                  <span class="text-xs mt-2 font-semibold text-cyber-muted">Analysis</span>
+                </div>
+                <div class="h-[2px] bg-gray-800 flex-1 mx-2" id="line-step-5"></div>
+                <div class="wizard-step flex flex-col items-center flex-1 cursor-pointer" data-step="6">
+                  <div
+                    class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm bg-gray-800 text-cyber-muted transition-all border border-transparent">
+                    6</div>
+                  <span class="text-xs mt-2 font-semibold text-cyber-muted">Output</span>
+                </div>
+                <div class="h-[2px] bg-gray-800 flex-1 mx-2" id="line-step-6"></div>
+                <div class="wizard-step flex flex-col items-center flex-1 cursor-pointer" data-step="7">
+                  <div
+                    class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm bg-gray-800 text-cyber-muted transition-all border border-transparent">
+                    7</div>
+                  <span class="text-xs mt-2 font-semibold text-cyber-muted">Visual</span>
+                </div>
+                <div class="h-[2px] bg-gray-800 flex-1 mx-2" id="line-step-7"></div>
+                <div class="wizard-step flex flex-col items-center flex-1 cursor-pointer" data-step="8">
+                  <div
+                    class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm bg-gray-800 text-cyber-muted transition-all border border-transparent">
+                    8</div>
+                  <span class="text-xs mt-2 font-semibold text-cyber-muted">Review</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP FIELDS -->
+            <!-- Step 1: Project Info -->
+            <div id="step-panel-1" class="step-panel space-y-6">
+              <div>
+                <h2 class="text-lg font-bold text-white mb-1">Step 1: ข้อมูลโครงการเบื้องต้น (Project Profile)</h2>
+                <p class="text-xs text-cyber-muted">ตั้งชื่อและปูเป้าหมายโครงการเพื่อให้ปัญญาประดิษฐ์ทราบทิศทางขั้นต้น
+                </p>
+              </div>
+              <div class="space-y-4">
+                <div>
+                  <label for="input-proj-name"
+                    class="block text-sm font-semibold text-gray-300 mb-1.5 flex items-center gap-1.5">
+                    ชื่อโครงการ/หัวข้อหลัก
+                    <span class="text-red-400 text-xs">*</span>
+                  </label>
+                  <input type="text" id="input-proj-name"
+                    class="glass-input w-full rounded-xl px-4 py-3 text-sm focus:border-blue-500"
+                    placeholder="เช่น HR Attendance Dashboard หรือ แผนการตลาดผลิตภัณฑ์ใหม่">
+                </div>
+                <div>
+                  <label for="input-proj-goal"
+                    class="block text-sm font-semibold text-gray-300 mb-1.5 flex items-center gap-1.5">
+                    เป้าหมายการทำงาน
+                    <span class="text-red-400 text-xs">*</span>
+                  </label>
+                  <textarea id="input-proj-goal" rows="3"
+                    class="glass-input w-full rounded-xl px-4 py-3 text-sm focus:border-blue-500 resize-none"
+                    placeholder="เช่น สร้างรายงานสรุปประเด็นหลักและแผนการนำเสนอผลงานบอร์ดบริหาร เพื่อให้ตัดสินใจปรับปรุงระบบได้ทันที"></textarea>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label for="input-proj-audience"
+                      class="block text-sm font-semibold text-gray-300 mb-1.5">กลุ่มเป้าหมายผู้รับสาร (Audience)</label>
+                    <input type="text" id="input-proj-audience"
+                      class="glass-input w-full rounded-xl px-4 py-3 text-sm focus:border-blue-500"
+                      placeholder="เช่น คณะกรรมการบริหาร หรือ คุณครูประถม">
+                  </div>
+                  <div>
+                    <label for="input-proj-difficulty"
+                      class="block text-sm font-semibold text-gray-300 mb-1.5">ระดับความลึก/ความยาก</label>
+                    <select id="input-proj-difficulty"
+                      class="glass-input w-full rounded-xl px-4 py-3 text-sm focus:border-blue-500 cursor-pointer">
+                      <option value="Beginner">Beginner (เข้าใจง่าย กระชับ)</option>
+                      <option value="Intermediate" selected>Intermediate (วิเคราะห์ตามทฤษฎีมาตรฐาน)</option>
+                      <option value="Advanced">Advanced (เชิงเทคนิคเชิงลึก มีหลักเกณฑ์เฉพาะตัว)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 2: Role Selection -->
+            <div id="step-panel-2" class="step-panel hidden space-y-6">
+              <div>
+                <h2 class="text-lg font-bold text-white mb-1">Step 2: บทบาทผู้เชี่ยวชาญ (Role Definition)</h2>
+                <p class="text-xs text-cyber-muted">การสวมบทบาท (Role) ช่วยปรับเปลี่ยนกรอบความคิดและมุมมองการประมวลผลของ
+                  AI ให้คมชัดขึ้น</p>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="role-cards-container">
+                <!-- Roles injected via JS -->
+              </div>
+              <div id="custom-role-input-box" class="hidden">
+                <label for="input-custom-role"
+                  class="block text-sm font-semibold text-gray-300 mb-1.5">ระบุรายละเอียดบทบาทคุณลักษณะพิเศษ (System
+                  Instruction)</label>
+                <textarea id="input-custom-role" rows="3"
+                  class="glass-input w-full rounded-xl px-4 py-3 text-sm focus:border-blue-500"
+                  placeholder="เช่น คุณคือผู้เชี่ยวชาญการเงินและที่ปรึกษาด้านการจัดการพลังงานสีเขียว มีประสบการณ์ให้คำแนะนำบริษัทในตลาดหลักทรัพย์..."></textarea>
+              </div>
+            </div>
+
+            <!-- Step 3: Context & Background -->
+            <div id="step-panel-3" class="step-panel hidden space-y-6">
+              <div>
+                <h2 class="text-lg font-bold text-white mb-1">Step 3: บริบทและรายละเอียดงาน (Context & Target)</h2>
+                <p class="text-xs text-cyber-muted">การป้อนบริบทอย่างละเอียดช่วยป้องกันไม่ให้ AI
+                  ทำงานหลงทิศและช่วยลดภาพหลอน (Hallucinations)</p>
+              </div>
+              <div class="space-y-4">
+                <div>
+                  <label for="input-ctx-bg"
+                    class="block text-sm font-semibold text-gray-300 mb-1.5 flex items-center gap-1">
+                    ภูมิหลัง/ปัญหาเดิม (Background)
+                    <span class="text-xs text-cyber-muted">(แนะนำ)</span>
+                  </label>
+                  <textarea id="input-ctx-bg" rows="2"
+                    class="glass-input w-full rounded-xl px-4 py-3 text-sm focus:border-blue-500"
+                    placeholder="ปัญหาเดิมคืออะไร ทำไมจึงต้องจัดทำโครงการนี้ มีจุดบกพร่องใดเกิดขึ้นแล้วบ้าง..."></textarea>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label for="input-ctx-objective"
+                      class="block text-sm font-semibold text-gray-300 mb-1.5">วัตถุประสงค์ (Objective)</label>
+                    <textarea id="input-ctx-objective" rows="2"
+                      class="glass-input w-full rounded-xl px-4 py-3 text-sm focus:border-blue-500"
+                      placeholder="เพื่อแก้ไขปัญหาอะไร หรือพัฒนาสิ่งใดให้เกิดขึ้น"></textarea>
+                  </div>
+                  <div>
+                    <label for="input-ctx-target"
+                      class="block text-sm font-semibold text-gray-300 mb-1.5">กลุ่มเป้าหมายผู้รับผลประโยชน์ (Target
+                      Users)</label>
+                    <textarea id="input-ctx-target" rows="2"
+                      class="glass-input w-full rounded-xl px-4 py-3 text-sm focus:border-blue-500"
+                      placeholder="ใครบ้างที่จะใช้หรือได้รับผลกระทบจากผลลัพธ์นี้"></textarea>
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label for="input-ctx-stakeholders"
+                      class="block text-sm font-semibold text-gray-300 mb-1.5">ผู้มีส่วนเกี่ยวข้อง
+                      (Stakeholders)</label>
+                    <input type="text" id="input-ctx-stakeholders"
+                      class="glass-input w-full rounded-xl px-4 py-3 text-sm focus:border-blue-500"
+                      placeholder="เช่น ผู้จัดการแผนก, ซัพพลายเออร์, ลูกค้า">
+                  </div>
+                  <div>
+                    <label for="input-ctx-constraints"
+                      class="block text-sm font-semibold text-gray-300 mb-1.5">ข้อจำกัด/ข้อระวัง (Constraints)</label>
+                    <input type="text" id="input-ctx-constraints"
+                      class="glass-input w-full rounded-xl px-4 py-3 text-sm focus:border-blue-500"
+                      placeholder="เช่น ข้อมูลเป็นความลับ, งบไม่เกิน 50k, เสร็จใน 30 วัน">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 4: Raw Data & Files -->
+            <div id="step-panel-4" class="step-panel hidden space-y-6">
+              <div>
+                <h2 class="text-lg font-bold text-white mb-1">Step 4: ข้อมูลดิบหรือประเด็นตั้งต้น (Raw Data)</h2>
+                <p class="text-xs text-cyber-muted">ใส่ข้อมูล สถิติ ประเด็นจากการระดมสมอง หรือลากวางไฟล์ข้อความ (.txt,
+                  .md) เพื่อให้ AI ประมวลผลจากข้อมูลจริง</p>
+              </div>
+              <div class="space-y-4">
+                <!-- Drag and Drop Area -->
+                <div id="drag-drop-zone"
+                  class="border-2 border-dashed border-cyber-border rounded-2xl p-6 text-center hover:border-cyber-role transition cursor-pointer bg-gray-950/20">
+                  <svg class="w-8 h-8 mx-auto text-cyber-muted mb-2" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z">
+                    </path>
+                  </svg>
+                  <p class="text-sm font-semibold text-gray-300">ลากวางไฟล์ .txt หรือ .md ที่นี่ หรือ <span
+                      class="text-cyber-role">เลือกไฟล์</span></p>
+                  <input type="file" id="file-uploader" class="hidden" accept=".txt,.md">
+                </div>
+                <div>
+                  <label for="input-raw-data"
+                    class="block text-sm font-semibold text-gray-300 mb-1.5 flex items-center justify-between">
+                    <span>ข้อมูลดิบ/เนื้อหาหลัก</span>
+                    <span id="char-counter" class="text-xs text-cyber-muted">0 อักษร</span>
+                  </label>
+                  <textarea id="input-raw-data" rows="8"
+                    class="glass-input w-full rounded-xl px-4 py-3 text-sm focus:border-blue-500 font-mono"
+                    placeholder="พิมพ์หรือวางรายละเอียดข้อจำกัด สถิติตัวเลข หรือผลจากการระดมสมองของคุณที่นี่..."></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 5: Analysis Frameworks -->
+            <div id="step-panel-5" class="step-panel hidden space-y-6">
+              <div>
+                <h2 class="text-lg font-bold text-white mb-1">Step 5: กรอบการวิเคราะห์เชิงระบบ (Analysis Frameworks)
+                </h2>
+                <p class="text-xs text-cyber-muted">เลือกกรอบการทำงานทางธุรกิจเพื่อบังคับทิศทางให้ AI
+                  แยกแยะและวิเคราะห์อย่างรอบด้าน</p>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="analysis-checkbox-container">
+                <!-- Frameworks checkboxes injected by JS -->
+              </div>
+            </div>
+
+            <!-- Step 6: Output Structure -->
+            <div id="step-panel-6" class="step-panel hidden space-y-6">
+              <div>
+                <h2 class="text-lg font-bold text-white mb-1">Step 6: โครงสร้างการนำเสนอผลลัพธ์ (Output Format)</h2>
+                <p class="text-xs text-cyber-muted">
+                  กำหนดรูปแบบการจัดวางและรูปแบบเอกสารปลายทางที่เหมาะสมสำหรับนำไปใช้งานจริง</p>
+              </div>
+              <div class="grid grid-cols-2 md:grid-cols-4 gap-3" id="output-cards-container">
+                <!-- Output cards injected by JS -->
+              </div>
+            </div>
+
+            <!-- Step 7: Visual Prompt Builder -->
+            <div id="step-panel-7" class="step-panel hidden space-y-6">
+              <div>
+                <h2 class="text-lg font-bold text-white mb-1">Step 7: ข้อกำหนดการจัดหน้าตาและรูปภาพ (Visual Prompt
+                  Specs)</h2>
+                <p class="text-xs text-cyber-muted">กำหนด Layout, สไตล์, โทนสี
+                  เพื่อแปลงข้อมูลวิเคราะห์ให้เป็นรูปภาพประกอบหรือสไลด์ที่สวยงาม</p>
+              </div>
+              <div class="space-y-5">
+                <!-- Layout & Aspect Ratio -->
+                <div>
+                  <label class="block text-sm font-semibold text-gray-300 mb-2">สัดส่วนและขนาดกระดาน (Layout / Aspect
+                    Ratio)</label>
+                  <div class="grid grid-cols-2 sm:grid-cols-5 gap-2" id="visual-layout-container">
+                    <!-- Injection -->
+                  </div>
+                </div>
+
+                <!-- Visual Style -->
+                <div>
+                  <label class="block text-sm font-semibold text-gray-300 mb-2">สไตล์การออกแบบงานภาพ (Design
+                    Style)</label>
+                  <div class="grid grid-cols-2 sm:grid-cols-4 gap-2" id="visual-style-container">
+                    <!-- Injection -->
+                  </div>
+                </div>
+
+                <!-- Color theme / Palette -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm font-semibold text-gray-300 mb-2">โทนสีและชุดสี (Color Theme)</label>
+                    <div class="grid grid-cols-3 gap-2" id="visual-color-container">
+                      <!-- Injection -->
+                    </div>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-semibold text-gray-300 mb-2">ประเภทความหนาแน่นข้อมูล
+                      (Density)</label>
+                    <div class="grid grid-cols-3 gap-2" id="visual-density-container">
+                      <!-- Injection -->
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Icons & Space -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm font-semibold text-gray-300 mb-2">สไตล์ไอคอนกราฟิก (Icon style)</label>
+                    <div class="grid grid-cols-3 gap-2" id="visual-icon-container">
+                      <!-- Injection -->
+                    </div>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-semibold text-gray-300 mb-2">ระยะการวางพื้นที่ว่าง
+                      (Whitespace)</label>
+                    <div class="grid grid-cols-3 gap-2" id="visual-space-container">
+                      <!-- Injection -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 8: Review -->
+            <div id="step-panel-8" class="step-panel hidden space-y-6">
+              <div>
+                <h2 class="text-lg font-bold text-white mb-1">Step 8: การรีวิวและประเมินคุณภาพ (Quality Review)</h2>
+                <p class="text-xs text-cyber-muted">
+                  ตรวจสอบข้อผิดพลาดและส่วนประกอบหลักที่ยังขาดหายเพื่อให้ระบบวิเคราะห์ได้ครอบคลุม</p>
+              </div>
+              <div class="glass-card rounded-2xl p-6 border border-cyber-border space-y-6">
+                <div>
+                  <h3 class="text-md font-bold text-white mb-3 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                      stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    รายการตรวจสอบคุณภาพ Prompt (Prompt Checklist)
+                  </h3>
+                  <div class="space-y-3" id="checklist-results-container">
+                    <!-- Injected via JS -->
+                  </div>
+                </div>
+
+                <div class="border-t border-cyber-border pt-4">
+                  <p class="text-xs text-cyber-muted">คะแนนจะปรับตัวตามข้อมูลในแบบฟอร์มแบบเรียลไทม์
+                    ยิ่งใส่ข้อมูลชัดเจนเท่าไร ความแม่นยำและการนำไปใช้วิเคราะห์ก็จะมีโอกาสบรรลุเป้าหมายสูงขึ้นเท่านั้น
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="mt-8 flex justify-between items-center border-t border-cyber-border pt-6">
+              <button id="btn-prev-step"
+                class="px-4 py-2.5 rounded-xl bg-gray-800 text-gray-300 font-semibold border border-cyber-border hover:bg-gray-700 transition flex items-center gap-1"
+                disabled>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                ก่อนหน้า
+              </button>
+              <button id="btn-next-step"
+                class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold shadow-lg shadow-blue-500/20 transition flex items-center gap-1">
+                ถัดไป
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- TAB 2: BLOCKS (DRAG AND DROP) -->
+          <div id="tab-content-blocks" class="tab-content hidden space-y-6">
+            <div>
+              <h2 class="text-lg font-bold text-white mb-1">สถาปัตยกรรมบล็อกข้อมูล (Prompt Blocks Studio)</h2>
+              <p class="text-xs text-cyber-muted">ลากย้ายสลับตำแหน่งบล็อกของ UPA เพื่อเปลี่ยนลีลาการเรียงลำดับหัวข้อใน
+                Prompt เพื่อให้เหมาะสมตามความประสงค์</p>
+            </div>
+
+            <div id="blocks-list" class="space-y-3">
+              <!-- Reorderable blocks injected via JS -->
+            </div>
+
+            <div class="pt-4 flex gap-3">
+              <button id="btn-reset-blocks"
+                class="px-4 py-2 text-sm rounded-lg bg-gray-800 border border-cyber-border hover:bg-gray-700 text-white font-semibold transition">
+                รีเซ็ตลำดับบล็อก
+              </button>
+            </div>
+          </div>
+
+          <!-- TAB 3: OPTIMIZER -->
+          <div id="tab-content-optimizer" class="tab-content hidden space-y-6">
+            <div>
+              <h2 class="text-lg font-bold text-white mb-1">กลไกปรับแต่ง Prompt อัจฉริยะ (Prompt Optimizer)</h2>
+              <p class="text-xs text-cyber-muted">วาง Prompt ทั่วไปที่คุณมักใช้
+                แล้วให้ระบบวิเคราะห์ขยายความและวางสถาปัตยกรรมระดับมืออาชีพโดยอัตโนมัติ</p>
+            </div>
+
+            <div class="space-y-4">
+              <div>
+                <label for="optimizer-input"
+                  class="block text-sm font-semibold text-gray-300 mb-1.5">กรอกคำสั่งตั้งต้นของคุณ (Simple
+                  Prompt)</label>
+                <textarea id="optimizer-input" rows="4"
+                  class="glass-input w-full rounded-xl px-4 py-3 text-sm focus:border-blue-500"
+                  placeholder="เช่น ช่วยคิดสไลด์นำเสนอเรื่องความขยัน หรือ วิเคราะห์ข้อมูลการขายเสื้อออนไลน์"></textarea>
+              </div>
+
+              <button id="btn-optimize-prompt"
+                class="px-5 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-bold shadow-lg shadow-emerald-500/10 transition w-full flex items-center justify-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+                ปรับแต่งและเปลี่ยนสถาปัตยกรรม (Optimize)
+              </button>
+
+              <!-- Optimization Results Panel -->
+              <div id="optimizer-results-panel" class="hidden space-y-6 border-t border-cyber-border pt-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <!-- Before vs After score -->
+                  <div class="glass-card rounded-2xl p-5 border border-red-500/20 bg-red-500/5">
+                    <div class="flex items-center justify-between mb-2">
+                      <span class="text-sm font-bold text-red-400">คำสั่งดั้งเดิม (Simple Prompt)</span>
+                      <span id="opt-before-score"
+                        class="text-xs font-bold px-2.5 py-0.5 rounded bg-red-500/20 text-red-300 border border-red-500/30">12/100</span>
+                    </div>
+                    <p class="text-xs text-cyber-muted mt-2">เป็นเพียงประโยคบอกเล่าคำถาม
+                      ขาดข้อมูลภูมิหลังและกรอบการวิเคราะห์ ทำให้ AI คาดเดาผลลัพธ์แบบสุ่ม</p>
+                  </div>
+
+                  <div class="glass-card rounded-2xl p-5 border border-emerald-500/20 bg-emerald-500/5">
+                    <div class="flex items-center justify-between mb-2">
+                      <span class="text-sm font-bold text-emerald-400">คำสั่งประดับชั้นแบบสถาปัตยกรรม (Professional
+                        UPA)</span>
+                      <span id="opt-after-score"
+                        class="text-xs font-bold px-2.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">92/100</span>
+                    </div>
+                    <p class="text-xs text-cyber-muted mt-2">ประกอบไปด้วยการสวมสิทธิ์ บทบาท ข้อมูลการวิเคราะห์
+                      และระบุข้อบังคับอย่างรอบคอบ พร้อมคำนำส่งรูปภาพ</p>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 class="text-sm font-bold text-white mb-2">สิ่งที่เพิ่มเข้าไปเพื่อการปฏิรูปคำสั่ง:</h3>
+                  <ul id="opt-explanation-list" class="space-y-2 text-xs text-gray-300">
+                    <!-- Injected items -->
+                  </ul>
+                </div>
+
+                <div
+                  class="p-4 bg-emerald-500/10 rounded-xl border border-emerald-500/20 flex items-center justify-between">
+                  <span class="text-sm font-semibold text-emerald-300">ปรับแก้เข้าในโปรเจกต์ เรียบร้อยแล้ว!
+                    สามารถสลับกลับไปดูที่ Wizard หรือบล็อกพรีวิวได้ทันที</span>
+                  <button id="btn-apply-optimized"
+                    class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded-lg transition">โหลดค่าใส่ฟอร์ม</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 4: LIBRARY -->
+          <div id="tab-content-library" class="tab-content hidden space-y-6">
+            <div>
+              <h2 class="text-lg font-bold text-white mb-1">คลังสเปกต้นแบบ UPA (Prompt Specs Library)</h2>
+              <p class="text-xs text-cyber-muted">
+                คลิกเพียงปุ่มเดียวเพื่อสวมรูปแบบการทำงานสำเร็จรูปของแต่ละสายวิชาชีพลงในระบบการทำงานของคุณ</p>
+            </div>
+
+            <div id="library-templates-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- Templates injected by JS -->
+            </div>
+          </div>
+
+          <!-- TAB 5: BLUEPRINT MODE -->
+          <div id="tab-content-blueprint" class="tab-content hidden space-y-6">
+            <div>
+              <h2 class="text-lg font-bold text-white mb-1">โหมดพิมพ์เขียวระบบ (Project Blueprint Creator) 🗺️</h2>
+              <p class="text-xs text-cyber-muted">ออกแบบแปลนสถาปัตยกรรมโครงการ 6 ส่วนสำเร็จรูป กรอกข้อมูลแบบสั้นๆ เพื่อให้ได้ภาพสรุปตามสไตล์บอร์ดบริหารผู้เชี่ยวชาญ</p>
+            </div>
+            
+            <div class="space-y-6">
+              <!-- Section 1: Project Identity -->
+              <div class="glass-card rounded-2xl p-5 border border-cyber-border space-y-4">
+                <h3 class="text-sm font-bold text-blue-400 border-b border-cyber-border pb-2 flex items-center gap-1.5">
+                  <span>1. PO Kick-off & Profile (ข้อมูลโครงการ)</span>
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label for="bp-project-name" class="block text-xs font-semibold text-gray-300 mb-1">ชื่อโครงการ (Project Name)</label>
+                    <input type="text" id="bp-project-name" class="glass-input w-full rounded-xl px-3 py-2 text-xs focus:border-blue-500" placeholder="เช่น: ระบบ Smart Meeting Nameplate">
+                  </div>
+                  <div>
+                    <label for="bp-project-goal" class="block text-xs font-semibold text-gray-300 mb-1">เป้าหมายสูงสุด (Project Goal)</label>
+                    <input type="text" id="bp-project-goal" class="glass-input w-full rounded-xl px-3 py-2 text-xs focus:border-blue-500" placeholder="เช่น: พัฒนาระบบป้ายชื่อ IoT ไร้สายประหยัดพลังงาน">
+                  </div>
+                </div>
+                <div>
+                  <label for="bp-background" class="block text-xs font-semibold text-gray-300 mb-1">ภูมิหลังโครงการ / ปัญหาเดิม (Background)</label>
+                  <textarea id="bp-background" rows="2" class="glass-input w-full rounded-xl px-3 py-2 text-xs focus:border-blue-500" placeholder="เช่น: ปัญหาป้ายกระดาษเดิมสิ้นเปลืองและไม่ยืดหยุ่นต่อการจัดเก้าอี้ประชุมแบบกะทันหัน"></textarea>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label for="bp-in-scope" class="block text-xs font-semibold text-gray-300 mb-1">ขอบเขตงานในเฟส 1 (In-Scope)</label>
+                    <textarea id="bp-in-scope" rows="2" class="glass-input w-full rounded-xl px-3 py-2 text-xs focus:border-blue-500" placeholder="เช่น: บอร์ด ESP32, หน้าจอ E-Paper, หน้าเว็บผูกบอร์ด, แบ็คเอนด์ API Server"></textarea>
+                  </div>
+                  <div>
+                    <label for="bp-out-of-scope" class="block text-xs font-semibold text-gray-300 mb-1">นอกขอบเขตงานเฟส 1 (Out-of-Scope)</label>
+                    <textarea id="bp-out-of-scope" rows="2" class="glass-input w-full rounded-xl px-3 py-2 text-xs focus:border-blue-500" placeholder="เช่น: การเชื่อมต่อระบบภายนอกองค์กร, เคส Enclosure, เชื่อมต่อ Outlook Direct Sync"></textarea>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Section 2: Requirements (5W1H & PO) -->
+              <div class="glass-card rounded-2xl p-5 border border-cyber-border space-y-4">
+                <h3 class="text-sm font-bold text-blue-400 border-b border-cyber-border pb-2">
+                  2. Gathering Workshop & Requirements (ความต้องการและคัดกรอง)
+                </h3>
+                <div class="space-y-3">
+                  <div class="grid grid-cols-1 md:grid-cols-12 gap-2 items-center">
+                    <span class="text-xs font-bold text-gray-400 md:col-span-1">Req 1:</span>
+                    <input type="text" id="bp-req-1" class="glass-input rounded-xl px-3 py-2 text-xs md:col-span-8 focus:border-blue-500" placeholder="เช่น: แสดงผลชื่อผู้ร่วมประชุมบนจอ E-Paper">
+                    <select id="bp-req-po-1" class="glass-input rounded-xl px-3 py-2 text-xs md:col-span-3 focus:border-blue-500">
+                      <option value="จำเป็น (ทำเฟส 1)">จำเป็น (ทำเฟส 1)</option>
+                      <option value="จำเป็นมาก (ทำเฟส 1)">จำเป็นมาก (ทำเฟส 1)</option>
+                      <option value="ไม่จำเป็น (เลื่อนไปเฟสหน้า)">ไม่จำเป็น (เลื่อนไปเฟสหน้า)</option>
+                    </select>
+                  </div>
+                  <div class="grid grid-cols-1 md:grid-cols-12 gap-2 items-center">
+                    <span class="text-xs font-bold text-gray-400 md:col-span-1">Req 2:</span>
+                    <input type="text" id="bp-req-2" class="glass-input rounded-xl px-3 py-2 text-xs md:col-span-8 focus:border-blue-500" placeholder="เช่น: ระบบประหยัดไฟเครือข่าย ETag 304">
+                    <select id="bp-req-po-2" class="glass-input rounded-xl px-3 py-2 text-xs md:col-span-3 focus:border-blue-500">
+                      <option value="จำเป็น (ทำเฟส 1)">จำเป็น (ทำเฟส 1)</option>
+                      <option value="จำเป็นมาก (ทำเฟส 1)">จำเป็นมาก (ทำเฟส 1)</option>
+                      <option value="ไม่จำเป็น (เลื่อนไปเฟสหน้า)">ไม่จำเป็น (เลื่อนไปเฟสหน้า)</option>
+                    </select>
+                  </div>
+                  <div class="grid grid-cols-1 md:grid-cols-12 gap-2 items-center">
+                    <span class="text-xs font-bold text-gray-400 md:col-span-1">Req 3:</span>
+                    <input type="text" id="bp-req-3" class="glass-input rounded-xl px-3 py-2 text-xs md:col-span-8 focus:border-blue-500" placeholder="เช่น: นำเข้าไฟล์รายชื่อผู้ร่วมประชุมผ่าน Excel Upload">
+                    <select id="bp-req-po-3" class="glass-input rounded-xl px-3 py-2 text-xs md:col-span-3 focus:border-blue-500">
+                      <option value="จำเป็น (ทำเฟส 1)">จำเป็น (ทำเฟส 1)</option>
+                      <option value="จำเป็นมาก (ทำเฟส 1)">จำเป็นมาก (ทำเฟส 1)</option>
+                      <option value="ไม่จำเป็น (เลื่อนไปเฟสหน้า)">ไม่จำเป็น (เลื่อนไปเฟสหน้า)</option>
+                    </select>
+                  </div>
+                  <div class="grid grid-cols-1 md:grid-cols-12 gap-2 items-center">
+                    <span class="text-xs font-bold text-gray-400 md:col-span-1">Req 4:</span>
+                    <input type="text" id="bp-req-4" class="glass-input rounded-xl px-3 py-2 text-xs md:col-span-8 focus:border-blue-500" placeholder="เช่น: เชื่อมโยงดึงตารางจองและตอบรับผ่านปฏิทินส่วนกลาง Outlook">
+                    <select id="bp-req-po-4" class="glass-input rounded-xl px-3 py-2 text-xs md:col-span-3 focus:border-blue-500">
+                      <option value="ไม่จำเป็น (เลื่อนไปเฟสหน้า)">ไม่จำเป็น (เลื่อนไปเฟสหน้า)</option>
+                      <option value="จำเป็น (ทำเฟส 1)">จำเป็น (ทำเฟส 1)</option>
+                      <option value="จำเป็นมาก (ทำเฟส 1)">จำเป็นมาก (ทำเฟส 1)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Section 3: Methodology -->
+              <div class="glass-card rounded-2xl p-5 border border-cyber-border space-y-4">
+                <h3 class="text-sm font-bold text-blue-400 border-b border-cyber-border pb-2">
+                  3. Methodology & Sprint Roadmap (ระเบียบการพัฒนา)
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label for="bp-methodology-choice" class="block text-xs font-semibold text-gray-300 mb-1">แนวทางการพัฒนาโครงการ (Methodology)</label>
+                    <select id="bp-methodology-choice" class="glass-input w-full rounded-xl px-3 py-2 text-xs focus:border-blue-500">
+                      <option value="Agile (ซอยแบ่งรอบส่งของจริงหน้างาน)">Agile (ซอยแบ่งรอบส่งของจริง)</option>
+                      <option value="Waterfall (วางสเปกแบบโครงสร้างตายตัวทีละขั้น)">Waterfall (วางสเปกตายตัวทีละขั้น)</option>
+                      <option value="Hybrid (ปรับแบบยืดหยุ่นผสมผสาน Waterfall & Agile)">Hybrid (ปรับแบบยืดหยุ่นผสมผสาน)</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="bp-discuss-reqs" class="block text-xs font-semibold text-gray-300 mb-1">ฟีเจอร์หลักที่จะอภิปรายเปรียบเทียบ (เช่น ข้อ 1 และ 3)</label>
+                    <input type="text" id="bp-discuss-reqs" class="glass-input w-full rounded-xl px-3 py-2 text-xs focus:border-blue-500" placeholder="เช่น: การสแกนหน้า/พิกัด (ข้อ 1) และระบบสรุปผลรายเดือนส่ง HR (ข้อ 3)">
+                  </div>
+                </div>
+                <div>
+                  <label for="bp-methodology-rationale" class="block text-xs font-semibold text-gray-300 mb-1">เหตุผลและข้อสรุปทำไมจึงเลือกแนวทางนี้</label>
+                  <textarea id="bp-methodology-rationale" rows="2" class="glass-input w-full rounded-xl px-3 py-2 text-xs focus:border-blue-500" placeholder="เช่น: การพัฒนาบอร์ดและโค้ดมีโอกาสปรับแต่งเรื่องหน้าตาและสัดส่วนพิกเซลตลอดเวลา การเลือก Agile/Hybrid ช่วยให้ปรับแก้ตามการทดสอบได้ทันที"></textarea>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+                  <div>
+                    <label for="bp-sprint-1" class="block text-xs font-semibold text-gray-300 mb-1">Sprint 1 (Deliverables)</label>
+                    <input type="text" id="bp-sprint-1" class="glass-input w-full rounded-xl px-3 py-2 text-xs focus:border-blue-500" placeholder="เช่น: ประกอบบอร์ด HW เชื่อมต่อ API แรก">
+                  </div>
+                  <div>
+                    <label for="bp-sprint-2" class="block text-xs font-semibold text-gray-300 mb-1">Sprint 2 (Deliverables)</label>
+                    <input type="text" id="bp-sprint-2" class="glass-input w-full rounded-xl px-3 py-2 text-xs focus:border-blue-500" placeholder="เช่น: ตรรกะวาดภาพพิกเซล E-Paper, ระบบเช็ค ETag">
+                  </div>
+                  <div>
+                    <label for="bp-sprint-3" class="block text-xs font-semibold text-gray-300 mb-1">Sprint 3 (Deliverables)</label>
+                    <input type="text" id="bp-sprint-3" class="glass-input w-full rounded-xl px-3 py-2 text-xs focus:border-blue-500" placeholder="เช่น: อัปโหลด Excel, ระบบ Diff Check & UAT">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Section 4: IPO & UAT -->
+              <div class="glass-card rounded-2xl p-5 border border-cyber-border space-y-4">
+                <h3 class="text-sm font-bold text-blue-400 border-b border-cyber-border pb-2">
+                  4. IPO Model & UAT Validation (กระบวนการและการทดสอบ)
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  <div>
+                    <label for="bp-ipo-input" class="block text-xs font-semibold text-gray-300 mb-1">นำเข้า (Input)</label>
+                    <textarea id="bp-ipo-input" rows="2" class="glass-input w-full rounded-xl px-3 py-2 text-xs focus:border-blue-500" placeholder="เช่น: MAC Address, รายชื่อผู้ร่วมประชุม, ไฟล์ Excel"></textarea>
+                  </div>
+                  <div>
+                    <label for="bp-ipo-process" class="block text-xs font-semibold text-gray-300 mb-1">ประมวลผล (Process)</label>
+                    <textarea id="bp-ipo-process" rows="2" class="glass-input w-full rounded-xl px-3 py-2 text-xs focus:border-blue-500" placeholder="เช่น: บันทึกจับคู่บอร์ด, ตรวจสอบ Diff View, เปรียบเทียบ MD5 Hash ของข้อมูล"></textarea>
+                  </div>
+                  <div>
+                    <label for="bp-ipo-output" class="block text-xs font-semibold text-gray-300 mb-1">ผลลัพธ์ (Output)</label>
+                    <textarea id="bp-ipo-output" rows="2" class="glass-input w-full rounded-xl px-3 py-2 text-xs focus:border-blue-500" placeholder="เช่น: จอป้ายชื่อรีเฟรชข้อมูลล่าสุด, แผงแดชบอร์ดอัปเดตสถานะอุปกรณ์"></textarea>
+                  </div>
+                </div>
+                <div>
+                  <label for="bp-uat-cases" class="block text-xs font-semibold text-gray-300 mb-1">UAT Test Cases (เกณฑ์ตรวจรับ UAT)</label>
+                  <textarea id="bp-uat-cases" rows="2" class="glass-input w-full rounded-xl px-3 py-2 text-xs focus:border-blue-500" placeholder="เช่น: แอดมินสามารถอัปโหลดไฟล์ Excel ได้สำเร็จและเห็นตารางเปรียบเทียบ Diff, บอร์ด E-Paper แสดงชื่อถูกต้องไม่ตกขอบ และกะพริบเพื่อระบุตำแหน่งเครื่องได้เมื่อกดปุ่ม Identify"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Live Sticky Preview -->
+      <section class="w-full md:w-2/5 flex flex-col bg-gray-950/80 border-t md:border-t-0 border-cyber-border overflow-hidden">
+        <!-- Live Preview Header & Metrics -->
+        <div class="p-5 border-b border-cyber-border bg-gray-950/40 flex flex-wrap items-center justify-between gap-4">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <h3 class="text-md font-bold tracking-tight text-white">Live Prompt Preview</h3>
+          </div>
+
+          <!-- Rating Gauges -->
+          <div class="flex items-center gap-6">
+            <!-- Quality score gauge -->
+            <div class="flex items-center gap-2" data-tooltip="ประเมินคะแนนความครบถ้วนของข้อมูล (R, C, D, A, S, O)">
+              <div class="relative w-12 h-12">
+                <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                  <circle cx="18" cy="18" r="16" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="3"></circle>
+                  <circle id="gauge-quality-circle" cx="18" cy="18" r="16" fill="none" stroke="#3B82F6" stroke-width="3" stroke-dasharray="100 100" stroke-dashoffset="100" stroke-linecap="round" class="transition-all duration-500"></circle>
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <span id="gauge-quality-text" class="text-xs font-bold text-white font-outfit">0</span>
+                </div>
+              </div>
+              <div class="text-left leading-tight">
+                <span class="block text-xs uppercase font-bold text-cyber-muted tracking-wider">Prompt Quality</span>
+                <span id="label-quality-rating" class="text-xs font-bold text-blue-400">Low</span>
+              </div>
+            </div>
+
+            <!-- Image readiness gauge -->
+            <div class="flex items-center gap-2" data-tooltip="ประเมินความพร้อมสำหรับนำไปสร้างรูปภาพ in Image AI (V)">
+              <div class="relative w-12 h-12">
+                <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                  <circle cx="18" cy="18" r="16" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="3"></circle>
+                  <circle id="gauge-image-circle" cx="18" cy="18" r="16" fill="none" stroke="#06B6D4" stroke-width="3" stroke-dasharray="100 100" stroke-dashoffset="100" stroke-linecap="round" class="transition-all duration-500"></circle>
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <span id="gauge-image-text" class="text-xs font-bold text-white font-outfit">0%</span>
+                </div>
+              </div>
+              <div class="text-left leading-tight">
+                <span class="block text-xs uppercase font-bold text-cyber-muted tracking-wider">Image Ready</span>
+                <span id="label-image-rating" class="text-xs font-bold text-cyan-400">0%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Render Style Toggles -->
+        <div class="flex items-center justify-between px-5 py-2.5 bg-gray-950/20 border-b border-cyber-border text-xs">
+          <div class="flex gap-2">
+            <button id="btn-preview-formatted"
+              class="px-3 py-1 rounded bg-gray-800 text-white font-semibold transition border border-cyber-border">
+              ดูผลลัพธ์แบบจัดรูป (Formatted)
+            </button>
+            <button id="btn-preview-raw" class="px-3 py-1 rounded text-cyber-muted hover:text-white transition">
+              ดูโค้ดข้อความ (Raw Text)
+            </button>
+          </div>
+          <span class="text-cyber-muted hidden sm:inline" id="preview-update-timer">อัปเดตอัตโนมัติ</span>
+        </div>
+
+        <!-- Compiled Text Area Container -->
+        <div class="flex-grow overflow-y-auto p-6 font-mono text-sm leading-relaxed relative bg-gray-950/60"
+          id="preview-container">
+          <!-- Formatted MarkDown View -->
+          <div id="preview-formatted-box"
+            class="prose prose-invert prose-sm max-w-none text-gray-300 font-sans space-y-4">
+            <!-- Rendered Markdown goes here -->
+          </div>
+          <!-- Raw Text View -->
+          <textarea id="preview-raw-box"
+            class="absolute inset-0 w-full h-full p-6 bg-gray-950/90 text-gray-300 font-mono text-xs outline-none resize-none border-0 hidden"
+            readonly></textarea>
+        </div>
+
+        <!-- Actions Footer -->
+        <div class="p-5 border-t border-cyber-border bg-gray-950/80 grid grid-cols-2 sm:grid-cols-4 gap-2">
+          <button id="btn-copy-prompt"
+            class="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold shadow-md shadow-blue-500/20 transition flex items-center justify-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3">
+              </path>
+            </svg>
+            คัดลอก (Copy)
+          </button>
+
+          <button id="btn-download-md"
+            class="px-4 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 text-white text-xs font-semibold border border-cyber-border transition flex items-center justify-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+              </path>
+            </svg>
+            โหลด .md
+          </button>
+
+          <button id="btn-download-json"
+            class="px-4 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 text-white text-xs font-semibold border border-cyber-border transition flex items-center justify-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7"></path>
+            </svg>
+            โหลด JSON
+          </button>
+
+          <button id="btn-share-link"
+            class="px-4 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 text-white text-xs font-semibold border border-cyber-border transition flex items-center justify-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M8.684 10.742l4.636-2.318m0 7.152l-4.636-2.318M21 12a3 3 0 11-6 0 3 3 0 016 0zm-11-8a3 3 0 11-6 0 3 3 0 016 0zm0 16a3 3 0 11-6 0 3 3 0 016 0z">
+              </path>
+            </svg>
+            แชร์ลิงก์
+          </button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>
