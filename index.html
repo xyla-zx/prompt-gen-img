@@ -63,7 +63,8 @@
     <!-- Main Container -->
     <main class="flex-grow flex flex-col md:flex-row h-auto md:h-[calc(100vh-73px)] overflow-y-auto md:overflow-hidden">
       <!-- Left Column: Architect Controls (Scrollable) -->
-      <section class="w-full md:w-3/5 flex flex-col border-b md:border-b-0 md:border-r border-cyber-border overflow-hidden">
+      <section
+        class="w-full md:w-3/5 flex flex-col border-b md:border-b-0 md:border-r border-cyber-border overflow-hidden">
         <!-- Tab Bar -->
         <div class="flex border-b border-cyber-border bg-gray-950/40 p-2 overflow-x-auto gap-1 w-full min-w-0">
           <button id="tab-btn-wizard"
@@ -98,15 +99,6 @@
               </path>
             </svg>
             Template Library (คลังแม่แบบ)
-          </button>
-          <button id="tab-btn-blueprint"
-            class="tab-btn px-4 py-2.5 text-sm font-semibold rounded-lg text-cyber-muted hover:text-white hover:bg-white/5 border border-transparent flex items-center gap-2 whitespace-nowrap transition">
-            <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7">
-              </path>
-            </svg>
-            Blueprint Mode (พิมพ์เขียวระบบ) 🗺️
           </button>
         </div>
 
@@ -577,160 +569,12 @@
             </div>
           </div>
 
-          <!-- TAB 5: BLUEPRINT MODE -->
-          <div id="tab-content-blueprint" class="tab-content hidden space-y-6">
-            <div>
-              <h2 class="text-lg font-bold text-white mb-1">โหมดพิมพ์เขียวระบบ (Project Blueprint Creator) 🗺️</h2>
-              <p class="text-xs text-cyber-muted">ออกแบบแปลนสถาปัตยกรรมโครงการ 6 ส่วนสำเร็จรูป กรอกข้อมูลแบบสั้นๆ เพื่อให้ได้ภาพสรุปตามสไตล์บอร์ดบริหารผู้เชี่ยวชาญ</p>
-            </div>
-            
-            <div class="space-y-6">
-              <!-- Section 1: Project Identity -->
-              <div class="glass-card rounded-2xl p-5 border border-cyber-border space-y-4">
-                <h3 class="text-sm font-bold text-blue-400 border-b border-cyber-border pb-2 flex items-center gap-1.5">
-                  <span>1. PO Kick-off & Profile (ข้อมูลโครงการ)</span>
-                </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label for="bp-project-name" class="block text-xs font-semibold text-gray-300 mb-1">ชื่อโครงการ (Project Name)</label>
-                    <input type="text" id="bp-project-name" class="glass-input w-full rounded-xl px-3 py-2 text-xs focus:border-blue-500" placeholder="เช่น: ระบบ Smart Meeting Nameplate">
-                  </div>
-                  <div>
-                    <label for="bp-project-goal" class="block text-xs font-semibold text-gray-300 mb-1">เป้าหมายสูงสุด (Project Goal)</label>
-                    <input type="text" id="bp-project-goal" class="glass-input w-full rounded-xl px-3 py-2 text-xs focus:border-blue-500" placeholder="เช่น: พัฒนาระบบป้ายชื่อ IoT ไร้สายประหยัดพลังงาน">
-                  </div>
-                </div>
-                <div>
-                  <label for="bp-background" class="block text-xs font-semibold text-gray-300 mb-1">ภูมิหลังโครงการ / ปัญหาเดิม (Background)</label>
-                  <textarea id="bp-background" rows="2" class="glass-input w-full rounded-xl px-3 py-2 text-xs focus:border-blue-500" placeholder="เช่น: ปัญหาป้ายกระดาษเดิมสิ้นเปลืองและไม่ยืดหยุ่นต่อการจัดเก้าอี้ประชุมแบบกะทันหัน"></textarea>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label for="bp-in-scope" class="block text-xs font-semibold text-gray-300 mb-1">ขอบเขตงานในเฟส 1 (In-Scope)</label>
-                    <textarea id="bp-in-scope" rows="2" class="glass-input w-full rounded-xl px-3 py-2 text-xs focus:border-blue-500" placeholder="เช่น: บอร์ด ESP32, หน้าจอ E-Paper, หน้าเว็บผูกบอร์ด, แบ็คเอนด์ API Server"></textarea>
-                  </div>
-                  <div>
-                    <label for="bp-out-of-scope" class="block text-xs font-semibold text-gray-300 mb-1">นอกขอบเขตงานเฟส 1 (Out-of-Scope)</label>
-                    <textarea id="bp-out-of-scope" rows="2" class="glass-input w-full rounded-xl px-3 py-2 text-xs focus:border-blue-500" placeholder="เช่น: การเชื่อมต่อระบบภายนอกองค์กร, เคส Enclosure, เชื่อมต่อ Outlook Direct Sync"></textarea>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Section 2: Requirements (5W1H & PO) -->
-              <div class="glass-card rounded-2xl p-5 border border-cyber-border space-y-4">
-                <h3 class="text-sm font-bold text-blue-400 border-b border-cyber-border pb-2">
-                  2. Gathering Workshop & Requirements (ความต้องการและคัดกรอง)
-                </h3>
-                <div class="space-y-3">
-                  <div class="grid grid-cols-1 md:grid-cols-12 gap-2 items-center">
-                    <span class="text-xs font-bold text-gray-400 md:col-span-1">Req 1:</span>
-                    <input type="text" id="bp-req-1" class="glass-input rounded-xl px-3 py-2 text-xs md:col-span-8 focus:border-blue-500" placeholder="เช่น: แสดงผลชื่อผู้ร่วมประชุมบนจอ E-Paper">
-                    <select id="bp-req-po-1" class="glass-input rounded-xl px-3 py-2 text-xs md:col-span-3 focus:border-blue-500">
-                      <option value="จำเป็น (ทำเฟส 1)">จำเป็น (ทำเฟส 1)</option>
-                      <option value="จำเป็นมาก (ทำเฟส 1)">จำเป็นมาก (ทำเฟส 1)</option>
-                      <option value="ไม่จำเป็น (เลื่อนไปเฟสหน้า)">ไม่จำเป็น (เลื่อนไปเฟสหน้า)</option>
-                    </select>
-                  </div>
-                  <div class="grid grid-cols-1 md:grid-cols-12 gap-2 items-center">
-                    <span class="text-xs font-bold text-gray-400 md:col-span-1">Req 2:</span>
-                    <input type="text" id="bp-req-2" class="glass-input rounded-xl px-3 py-2 text-xs md:col-span-8 focus:border-blue-500" placeholder="เช่น: ระบบประหยัดไฟเครือข่าย ETag 304">
-                    <select id="bp-req-po-2" class="glass-input rounded-xl px-3 py-2 text-xs md:col-span-3 focus:border-blue-500">
-                      <option value="จำเป็น (ทำเฟส 1)">จำเป็น (ทำเฟส 1)</option>
-                      <option value="จำเป็นมาก (ทำเฟส 1)">จำเป็นมาก (ทำเฟส 1)</option>
-                      <option value="ไม่จำเป็น (เลื่อนไปเฟสหน้า)">ไม่จำเป็น (เลื่อนไปเฟสหน้า)</option>
-                    </select>
-                  </div>
-                  <div class="grid grid-cols-1 md:grid-cols-12 gap-2 items-center">
-                    <span class="text-xs font-bold text-gray-400 md:col-span-1">Req 3:</span>
-                    <input type="text" id="bp-req-3" class="glass-input rounded-xl px-3 py-2 text-xs md:col-span-8 focus:border-blue-500" placeholder="เช่น: นำเข้าไฟล์รายชื่อผู้ร่วมประชุมผ่าน Excel Upload">
-                    <select id="bp-req-po-3" class="glass-input rounded-xl px-3 py-2 text-xs md:col-span-3 focus:border-blue-500">
-                      <option value="จำเป็น (ทำเฟส 1)">จำเป็น (ทำเฟส 1)</option>
-                      <option value="จำเป็นมาก (ทำเฟส 1)">จำเป็นมาก (ทำเฟส 1)</option>
-                      <option value="ไม่จำเป็น (เลื่อนไปเฟสหน้า)">ไม่จำเป็น (เลื่อนไปเฟสหน้า)</option>
-                    </select>
-                  </div>
-                  <div class="grid grid-cols-1 md:grid-cols-12 gap-2 items-center">
-                    <span class="text-xs font-bold text-gray-400 md:col-span-1">Req 4:</span>
-                    <input type="text" id="bp-req-4" class="glass-input rounded-xl px-3 py-2 text-xs md:col-span-8 focus:border-blue-500" placeholder="เช่น: เชื่อมโยงดึงตารางจองและตอบรับผ่านปฏิทินส่วนกลาง Outlook">
-                    <select id="bp-req-po-4" class="glass-input rounded-xl px-3 py-2 text-xs md:col-span-3 focus:border-blue-500">
-                      <option value="ไม่จำเป็น (เลื่อนไปเฟสหน้า)">ไม่จำเป็น (เลื่อนไปเฟสหน้า)</option>
-                      <option value="จำเป็น (ทำเฟส 1)">จำเป็น (ทำเฟส 1)</option>
-                      <option value="จำเป็นมาก (ทำเฟส 1)">จำเป็นมาก (ทำเฟส 1)</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Section 3: Methodology -->
-              <div class="glass-card rounded-2xl p-5 border border-cyber-border space-y-4">
-                <h3 class="text-sm font-bold text-blue-400 border-b border-cyber-border pb-2">
-                  3. Methodology & Sprint Roadmap (ระเบียบการพัฒนา)
-                </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label for="bp-methodology-choice" class="block text-xs font-semibold text-gray-300 mb-1">แนวทางการพัฒนาโครงการ (Methodology)</label>
-                    <select id="bp-methodology-choice" class="glass-input w-full rounded-xl px-3 py-2 text-xs focus:border-blue-500">
-                      <option value="Agile (ซอยแบ่งรอบส่งของจริงหน้างาน)">Agile (ซอยแบ่งรอบส่งของจริง)</option>
-                      <option value="Waterfall (วางสเปกแบบโครงสร้างตายตัวทีละขั้น)">Waterfall (วางสเปกตายตัวทีละขั้น)</option>
-                      <option value="Hybrid (ปรับแบบยืดหยุ่นผสมผสาน Waterfall & Agile)">Hybrid (ปรับแบบยืดหยุ่นผสมผสาน)</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label for="bp-discuss-reqs" class="block text-xs font-semibold text-gray-300 mb-1">ฟีเจอร์หลักที่จะอภิปรายเปรียบเทียบ (เช่น ข้อ 1 และ 3)</label>
-                    <input type="text" id="bp-discuss-reqs" class="glass-input w-full rounded-xl px-3 py-2 text-xs focus:border-blue-500" placeholder="เช่น: การสแกนหน้า/พิกัด (ข้อ 1) และระบบสรุปผลรายเดือนส่ง HR (ข้อ 3)">
-                  </div>
-                </div>
-                <div>
-                  <label for="bp-methodology-rationale" class="block text-xs font-semibold text-gray-300 mb-1">เหตุผลและข้อสรุปทำไมจึงเลือกแนวทางนี้</label>
-                  <textarea id="bp-methodology-rationale" rows="2" class="glass-input w-full rounded-xl px-3 py-2 text-xs focus:border-blue-500" placeholder="เช่น: การพัฒนาบอร์ดและโค้ดมีโอกาสปรับแต่งเรื่องหน้าตาและสัดส่วนพิกเซลตลอดเวลา การเลือก Agile/Hybrid ช่วยให้ปรับแก้ตามการทดสอบได้ทันที"></textarea>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
-                  <div>
-                    <label for="bp-sprint-1" class="block text-xs font-semibold text-gray-300 mb-1">Sprint 1 (Deliverables)</label>
-                    <input type="text" id="bp-sprint-1" class="glass-input w-full rounded-xl px-3 py-2 text-xs focus:border-blue-500" placeholder="เช่น: ประกอบบอร์ด HW เชื่อมต่อ API แรก">
-                  </div>
-                  <div>
-                    <label for="bp-sprint-2" class="block text-xs font-semibold text-gray-300 mb-1">Sprint 2 (Deliverables)</label>
-                    <input type="text" id="bp-sprint-2" class="glass-input w-full rounded-xl px-3 py-2 text-xs focus:border-blue-500" placeholder="เช่น: ตรรกะวาดภาพพิกเซล E-Paper, ระบบเช็ค ETag">
-                  </div>
-                  <div>
-                    <label for="bp-sprint-3" class="block text-xs font-semibold text-gray-300 mb-1">Sprint 3 (Deliverables)</label>
-                    <input type="text" id="bp-sprint-3" class="glass-input w-full rounded-xl px-3 py-2 text-xs focus:border-blue-500" placeholder="เช่น: อัปโหลด Excel, ระบบ Diff Check & UAT">
-                  </div>
-                </div>
-              </div>
-
-              <!-- Section 4: IPO & UAT -->
-              <div class="glass-card rounded-2xl p-5 border border-cyber-border space-y-4">
-                <h3 class="text-sm font-bold text-blue-400 border-b border-cyber-border pb-2">
-                  4. IPO Model & UAT Validation (กระบวนการและการทดสอบ)
-                </h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                  <div>
-                    <label for="bp-ipo-input" class="block text-xs font-semibold text-gray-300 mb-1">นำเข้า (Input)</label>
-                    <textarea id="bp-ipo-input" rows="2" class="glass-input w-full rounded-xl px-3 py-2 text-xs focus:border-blue-500" placeholder="เช่น: MAC Address, รายชื่อผู้ร่วมประชุม, ไฟล์ Excel"></textarea>
-                  </div>
-                  <div>
-                    <label for="bp-ipo-process" class="block text-xs font-semibold text-gray-300 mb-1">ประมวลผล (Process)</label>
-                    <textarea id="bp-ipo-process" rows="2" class="glass-input w-full rounded-xl px-3 py-2 text-xs focus:border-blue-500" placeholder="เช่น: บันทึกจับคู่บอร์ด, ตรวจสอบ Diff View, เปรียบเทียบ MD5 Hash ของข้อมูล"></textarea>
-                  </div>
-                  <div>
-                    <label for="bp-ipo-output" class="block text-xs font-semibold text-gray-300 mb-1">ผลลัพธ์ (Output)</label>
-                    <textarea id="bp-ipo-output" rows="2" class="glass-input w-full rounded-xl px-3 py-2 text-xs focus:border-blue-500" placeholder="เช่น: จอป้ายชื่อรีเฟรชข้อมูลล่าสุด, แผงแดชบอร์ดอัปเดตสถานะอุปกรณ์"></textarea>
-                  </div>
-                </div>
-                <div>
-                  <label for="bp-uat-cases" class="block text-xs font-semibold text-gray-300 mb-1">UAT Test Cases (เกณฑ์ตรวจรับ UAT)</label>
-                  <textarea id="bp-uat-cases" rows="2" class="glass-input w-full rounded-xl px-3 py-2 text-xs focus:border-blue-500" placeholder="เช่น: แอดมินสามารถอัปโหลดไฟล์ Excel ได้สำเร็จและเห็นตารางเปรียบเทียบ Diff, บอร์ด E-Paper แสดงชื่อถูกต้องไม่ตกขอบ และกะพริบเพื่อระบุตำแหน่งเครื่องได้เมื่อกดปุ่ม Identify"></textarea>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
       <!-- Right Column: Live Sticky Preview -->
-      <section class="w-full md:w-2/5 flex flex-col bg-gray-950/80 border-t md:border-t-0 border-cyber-border overflow-hidden">
+      <section
+        class="w-full md:w-2/5 flex flex-col bg-gray-950/80 border-t md:border-t-0 border-cyber-border overflow-hidden">
         <!-- Live Preview Header & Metrics -->
         <div class="p-5 border-b border-cyber-border bg-gray-950/40 flex flex-wrap items-center justify-between gap-4">
           <div class="flex items-center gap-2">
@@ -745,7 +589,9 @@
               <div class="relative w-12 h-12">
                 <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
                   <circle cx="18" cy="18" r="16" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="3"></circle>
-                  <circle id="gauge-quality-circle" cx="18" cy="18" r="16" fill="none" stroke="#3B82F6" stroke-width="3" stroke-dasharray="100 100" stroke-dashoffset="100" stroke-linecap="round" class="transition-all duration-500"></circle>
+                  <circle id="gauge-quality-circle" cx="18" cy="18" r="16" fill="none" stroke="#3B82F6" stroke-width="3"
+                    stroke-dasharray="100 100" stroke-dashoffset="100" stroke-linecap="round"
+                    class="transition-all duration-500"></circle>
                 </svg>
                 <div class="absolute inset-0 flex items-center justify-center">
                   <span id="gauge-quality-text" class="text-xs font-bold text-white font-outfit">0</span>
@@ -762,7 +608,9 @@
               <div class="relative w-12 h-12">
                 <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
                   <circle cx="18" cy="18" r="16" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="3"></circle>
-                  <circle id="gauge-image-circle" cx="18" cy="18" r="16" fill="none" stroke="#06B6D4" stroke-width="3" stroke-dasharray="100 100" stroke-dashoffset="100" stroke-linecap="round" class="transition-all duration-500"></circle>
+                  <circle id="gauge-image-circle" cx="18" cy="18" r="16" fill="none" stroke="#06B6D4" stroke-width="3"
+                    stroke-dasharray="100 100" stroke-dashoffset="100" stroke-linecap="round"
+                    class="transition-all duration-500"></circle>
                 </svg>
                 <div class="absolute inset-0 flex items-center justify-center">
                   <span id="gauge-image-text" class="text-xs font-bold text-white font-outfit">0%</span>

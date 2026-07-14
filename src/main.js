@@ -51,31 +51,6 @@ const DOM = {
   tabBtnOptimizer: document.getElementById('tab-btn-optimizer'),
   tabBtnLibrary: document.getElementById('tab-btn-library'),
   tabContentWizard: document.getElementById('tab-content-wizard'),
-  tabBtnBlueprint: document.getElementById('tab-btn-blueprint'),
-  tabContentBlueprint: document.getElementById('tab-content-blueprint'),
-  bpProjectName: document.getElementById('bp-project-name'),
-  bpProjectGoal: document.getElementById('bp-project-goal'),
-  bpBackground: document.getElementById('bp-background'),
-  bpInScope: document.getElementById('bp-in-scope'),
-  bpOutOfScope: document.getElementById('bp-out-of-scope'),
-  bpReq1: document.getElementById('bp-req-1'),
-  bpReqPo1: document.getElementById('bp-req-po-1'),
-  bpReq2: document.getElementById('bp-req-2'),
-  bpReqPo2: document.getElementById('bp-req-po-2'),
-  bpReq3: document.getElementById('bp-req-3'),
-  bpReqPo3: document.getElementById('bp-req-po-3'),
-  bpReq4: document.getElementById('bp-req-4'),
-  bpReqPo4: document.getElementById('bp-req-po-4'),
-  bpMethodologyChoice: document.getElementById('bp-methodology-choice'),
-  bpDiscussReqs: document.getElementById('bp-discuss-reqs'),
-  bpMethodologyRationale: document.getElementById('bp-methodology-rationale'),
-  bpSprint1: document.getElementById('bp-sprint-1'),
-  bpSprint2: document.getElementById('bp-sprint-2'),
-  bpSprint3: document.getElementById('bp-sprint-3'),
-  bpIpoInput: document.getElementById('bp-ipo-input'),
-  bpIpoProcess: document.getElementById('bp-ipo-process'),
-  bpIpoOutput: document.getElementById('bp-ipo-output'),
-  bpUatCases: document.getElementById('bp-uat-cases'),
   tabContentBlocks: document.getElementById('tab-content-blocks'),
   tabContentOptimizer: document.getElementById('tab-content-optimizer'),
   tabContentLibrary: document.getElementById('tab-content-library'),
@@ -489,7 +464,6 @@ function syncStateToInputs() {
   selectVisualOption('density', appState.density);
   selectVisualOption('iconStyle', appState.iconStyle);
   selectVisualOption('whitespace', appState.whitespace);
-  syncStateToBlueprintInputs();
 
 }
 
@@ -510,30 +484,6 @@ function bindEvents() {
   DOM.tabBtnBlocks.addEventListener('click', () => switchTab('blocks'));
   DOM.tabBtnOptimizer.addEventListener('click', () => switchTab('optimizer'));
   DOM.tabBtnLibrary.addEventListener('click', () => switchTab('library'));
-  DOM.tabBtnBlueprint.addEventListener('click', () => switchTab('blueprint'));
-
-  // Listeners for all blueprint inputs to auto-sync back to state
-  const bpFields = [
-    DOM.bpProjectName, DOM.bpProjectGoal, DOM.bpBackground, DOM.bpInScope, DOM.bpOutOfScope,
-    DOM.bpReq1, DOM.bpReqPo1, DOM.bpReq2, DOM.bpReqPo2, DOM.bpReq3, DOM.bpReqPo3, DOM.bpReq4, DOM.bpReqPo4,
-    DOM.bpMethodologyChoice, DOM.bpDiscussReqs, DOM.bpMethodologyRationale,
-    DOM.bpSprint1, DOM.bpSprint2, DOM.bpSprint3,
-    DOM.bpIpoInput, DOM.bpIpoProcess, DOM.bpIpoOutput, DOM.bpUatCases
-  ];
-  bpFields.forEach(field => {
-    if (field) {
-      field.addEventListener('input', () => {
-        if (activeTab === 'blueprint') {
-          syncBlueprintInputsToState();
-        }
-      });
-      field.addEventListener('change', () => {
-        if (activeTab === 'blueprint') {
-          syncBlueprintInputsToState();
-        }
-      });
-    }
-  });
 
   // Reset Buttons
   DOM.btnResetApp.addEventListener('click', () => {
@@ -881,7 +831,7 @@ function switchTab(tab) {
     { btn: DOM.tabBtnBlocks, box: DOM.tabContentBlocks, name: 'blocks' },
     { btn: DOM.tabBtnOptimizer, box: DOM.tabContentOptimizer, name: 'optimizer' },
     { btn: DOM.tabBtnLibrary, box: DOM.tabContentLibrary, name: 'library' },
-];
+  ];
 
   tabs.forEach(t => {
     if (t.name === tab) {
@@ -896,9 +846,6 @@ function switchTab(tab) {
   });
 
   activeTab = tab;
-  if (tab === 'blueprint') {
-  
-  }
   updateUI();
 }
 
@@ -1079,108 +1026,3 @@ function updateUI() {
 
 // Start application
 window.addEventListener('DOMContentLoaded', init);
-
-function syncBlueprintInputsToState() {
-  appState.projectName = DOM.bpProjectName.value || '';
-  appState.projectGoal = DOM.bpProjectGoal.value || '';
-  appState.background = DOM.bpBackground.value || '';
-  
-  appState.constraints = `In-Scope (ในขอบเขต): ${DOM.bpInScope.value || ''}\nOut-of-Scope (นอกขอบเขต): ${DOM.bpOutOfScope.value || ''}`;
-  
-  appState.rawData = `ความต้องการของระบบ (System Requirements):
-1. ${DOM.bpReq1.value || ''} (${DOM.bpReqPo1.value || ''})
-2. ${DOM.bpReq2.value || ''} (${DOM.bpReqPo2.value || ''})
-3. ${DOM.bpReq3.value || ''} (${DOM.bpReqPo3.value || ''})
-4. ${DOM.bpReq4.value || ''} (${DOM.bpReqPo4.value || ''})
-
-ข้อสั่งการสำหรับการวิเคราะห์ของ BA:
-1. การคัดกรองวิเคราะห์ความต้องการด้วย 5W1H & PO: นำความต้องการข้อ 1-4 ด้านบนมาวิเคราะห์ด้วยหลัก 5W1H และระบุผลการตัดสินกรองโดย PO
-2. อภิปรายเปรียบเทียบ Waterfall vs Agile: เปรียบเทียบสองวิธีการ โดยมีข้ออภิปรายเจาะลึกเฉพาะเกี่ยวกับ ${DOM.bpDiscussReqs.value || ''} และสรุปเหตุผลที่เลือกใช้แนวทาง ${DOM.bpMethodologyChoice.value || ''} เนื่องจาก: ${DOM.bpMethodologyRationale.value || ''} พร้อมจัดสรร Sprint Roadmap (Sprint 1: ${DOM.bpSprint1.value || ''}, Sprint 2: ${DOM.bpSprint2.value || ''}, Sprint 3: ${DOM.bpSprint3.value || ''})
-3. สถาปัตยกรรมกระบวนการ (Input - Process - Output):
-   - Input: ${DOM.bpIpoInput.value || ''}
-   - Process: ${DOM.bpIpoProcess.value || ''}
-   - Output: ${DOM.bpIpoOutput.value || ''}
-4. UAT Test Cases: ${DOM.bpUatCases.value || ''}`;
-
-  // Enforce typical blueprint options when using Blueprint Mode!
-  appState.outputFormat = 'infographic';
-  appState.layout = '16_9';
-  appState.stylePreset = 'academic';
-  appState.density = 'rich';
-  appState.colorTheme = 'auto';
-  appState.iconStyle = 'flat';
-  appState.whitespace = 'compact';
-  appState.outputStructure = `1. PO Kick-off (เป้าหมายสูงสุด และรายละเอียดขอบเขตงาน In-Scope vs Out-of-Scope)
-2. Gathering Workshop (ตารางพาร์สข้อกำหนดความต้องการแบบ 5W1H และผลลัพธ์การคัดกรองโดย PO)
-3. Methodology (การวิเคราะห์ข้อดีข้อเสีย Waterfall vs Agile, ข้อสรุปเหตุผลการเลือกใช้ และ Sprint Roadmap)
-4. Quality Gates & Dev (ขั้นตอนหลักในการควบคุมคุณภาพและวงจรส่งมอบการพัฒนาซอฟต์แวร์)
-5. Testing & UAT (รายละเอียดแผนการทดสอบแบบ Developer/System/Integration Test และ เกณฑ์ UAT)
-6. Go-Live & Support (แผนการนำระบบขึ้นสภาพแวดล้อมใช้งานจริง และโครงสร้างการให้บริการช่วยเหลือหลังใช้ระบบ)`;
-
-  updateUI();
-}
-
-function syncStateToBlueprintInputs() {
-  if (!DOM.bpProjectName) return; // Guard in case of premature calls
-  
-  DOM.bpProjectName.value = appState.projectName || '';
-  DOM.bpProjectGoal.value = appState.projectGoal || '';
-  DOM.bpBackground.value = appState.background || '';
-  
-  // Parse Constraints
-  const constraints = appState.constraints || '';
-  const inScopeMatch = constraints.match(/In-Scope \(ในขอบเขต\):\s*(.*?)(?=\nOut-of-Scope|$)/s);
-  const outScopeMatch = constraints.match(/Out-of-Scope \(นอกขอบเขต\):\s*(.*)/s);
-  DOM.bpInScope.value = inScopeMatch ? inScopeMatch[1].trim() : '';
-  DOM.bpOutOfScope.value = outScopeMatch ? outScopeMatch[1].trim() : '';
-
-  // Parse RawData requirements
-  const rawData = appState.rawData || '';
-  const req1Match = rawData.match(/1\.\s*(.*?)\s*\((จำเป็น.*?|ไม่จำเป็น.*?)\)/);
-  const req2Match = rawData.match(/2\.\s*(.*?)\s*\((จำเป็น.*?|ไม่จำเป็น.*?)\)/);
-  const req3Match = rawData.match(/3\.\s*(.*?)\s*\((จำเป็น.*?|ไม่จำเป็น.*?)\)/);
-  const req4Match = rawData.match(/4\.\s*(.*?)\s*\((จำเป็น.*?|ไม่จำเป็น.*?)\)/);
-
-  DOM.bpReq1.value = req1Match ? req1Match[1].trim() : '';
-  if (req1Match) DOM.bpReqPo1.value = req1Match[2].trim();
-  
-  DOM.bpReq2.value = req2Match ? req2Match[1].trim() : '';
-  if (req2Match) DOM.bpReqPo2.value = req2Match[2].trim();
-  
-  DOM.bpReq3.value = req3Match ? req3Match[1].trim() : '';
-  if (req3Match) DOM.bpReqPo3.value = req3Match[2].trim();
-  
-  DOM.bpReq4.value = req4Match ? req4Match[1].trim() : '';
-  if (req4Match) DOM.bpReqPo4.value = req4Match[2].trim();
-
-  // Parse Methodology Rationale
-  const discussMatch = rawData.match(/เฉพาะเกี่ยวกับ\s*(.*?)\s*และสรุปเหตุผล/);
-  const methodMatch = rawData.match(/เลือกใช้แนวทาง\s*(.*?)\s*เนื่องจาก/);
-  const rationaleMatch = rawData.match(/เนื่องจาก:\s*(.*?)\s*(?=พร้อมจัดสรร|Input|UAT|$)/s);
-  
-  DOM.bpDiscussReqs.value = discussMatch ? discussMatch[1].trim() : '';
-  if (methodMatch) DOM.bpMethodologyChoice.value = methodMatch[1].trim();
-  DOM.bpMethodologyRationale.value = rationaleMatch ? rationaleMatch[1].trim() : '';
-
-  // Parse sprints
-  const s1Match = rawData.match(/Sprint 1:\s*(.*?)(?=,\s*Sprint 2|$)/);
-  const s2Match = rawData.match(/Sprint 2:\s*(.*?)(?=,\s*Sprint 3|$)/);
-  const s3Match = rawData.match(/Sprint 3:\s*(.*?)(?=\)|$)/);
-  
-  DOM.bpSprint1.value = s1Match ? s1Match[1].trim() : '';
-  DOM.bpSprint2.value = s2Match ? s2Match[1].trim() : '';
-  DOM.bpSprint3.value = s3Match ? s3Match[1].trim() : '';
-
-  // Parse IPO
-  const ipoInMatch = rawData.match(/Input:\s*(.*?)(?=\n\s*- Process|$)/);
-  const ipoProMatch = rawData.match(/Process:\s*(.*?)(?=\n\s*- Output|$)/);
-  const ipoOutMatch = rawData.match(/Output:\s*(.*?)(?=\n|$)/);
-  
-  DOM.bpIpoInput.value = ipoInMatch ? ipoInMatch[1].trim() : '';
-  DOM.bpIpoProcess.value = ipoProMatch ? ipoProMatch[1].trim() : '';
-  DOM.bpIpoOutput.value = ipoOutMatch ? ipoOutMatch[1].trim() : '';
-
-  // Parse UAT
-  const uatMatch = rawData.match(/UAT Test Cases:\s*(.*)/s);
-  DOM.bpUatCases.value = uatMatch ? uatMatch[1].trim() : '';
-}
