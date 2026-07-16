@@ -46,7 +46,7 @@ export function compilePrompt(state, blockOrder = ['role', 'context', 'data', 'a
           const fwList = frameworks.map(fw => {
             switch (fw) {
               case 'swot': return '- **SWOT Analysis**: แยกแยะจุดแข็ง (Strengths), จุดอ่อน (Weaknesses), โอกาส (Opportunities) และอุปสรรค (Threats)';
-              case '5w1h': return '- **5W1H**: วิเคราะห์ ใคร (Who), ทำอะไร (What), ที่ไหน (Where), เมื่อไหร่ (When), ทำไม (Why), อย่างไร (How)';
+              case '5w1h': return '- **5W1H Framework**: นำแต่ละฟังก์ชันความต้องการ/ฟีเจอร์หลัก (Functional Requirements) ที่ระบุใน Raw Data มาจำแนกวิเคราะห์แบบ 5W1H (Who, What, Where, When, Why, How) ทีละฟังก์ชันแยกออกจากกันอย่างชัดเจน เพื่อให้เห็นเป้าหมายและบริบทการใช้งานจริงของแต่ละฟังก์ชัน';
               case 'ipo': return '- **IPO Framework**: ระบุข้อมูลนำเข้า (Input), กระบวนการประมวลผล (Process), และผลผลิตที่ต้องการ (Output)';
               case 'timeline': return '- **Timeline & Phase**: แบ่งระยะเวลาการดำเนินงาน ลำดับก่อน-หลัง (Sequential Phase)';
               case 'priority': return '- **Priority Matrix**: จัดลำดับความสำคัญของประเด็นตาม Impact vs Effort';
